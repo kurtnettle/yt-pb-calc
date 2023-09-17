@@ -1,11 +1,11 @@
 {
     "addons": {
-        "": {
+        "b4bbba24-0550-43f4-86d9-257967a56682": {
             "updates": [
                 {
-                    "version": "",
-                    "update_link": "",
-                    "update_hash": ""
+                    "version": "1.0",
+                    "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.0/yt-pb-calc_firefox_self_hosted.xpi",
+                    "update_hash": "sha512:8e8f7a0663b4cc2fce793f07c736461777e7855e49c185319c317274a479bb4640fb9d3b838f796c350b36e7ac8e06a27e8d393c6bec25bbccca41819d616c43"
                 }
             ]
         }
