@@ -4,14 +4,14 @@ couldn't find any good name. :(
 
 # Setup Development Environment 
 ```
-pip -m venv venv/py
-pip install nodeenv==1.8.0
+python -m venv venv/py
 source venv/py/bin/activate
+pip install nodeenv==1.8.0
 
-nodeenv --node 20.6.1 --npm 9.8.1 env/node
-source env/node/bin/activate
+nodeenv --node 20.6.1 --npm 9.8.1 venv/node
+source venv/node/bin/activate
 
-npm i rollup eslint-config-google
+npm i --save-dev rollup eslint-config-google
 ```
 
 # Build Extension
