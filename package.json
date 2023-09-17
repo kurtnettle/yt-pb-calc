@@ -1,0 +1,34 @@
+{
+  "name": "yt-pb-calc",
+  "version": "1.0",
+  "description": "get to know the video duration for different playback speed in Youtube.",
+  "main": "src/main.js",
+  "scripts": {
+    "build": "npx rollup -c && npm run build:ext",
+    "prepare:builddir": "rm -rf temp && mkdir temp && cp -r manifest.json dist/bundle.js icons/addon.svg temp/",
+    "build:ext": "npm run prepare:builddir && cd temp/ && npx web-ext build -o",
+    "dev": "npx rollup -c -w && npx web-ext run",
+    "lint": "npx eslint src/ && web-ext lint",
+    "lint:fix": "npx eslint --fix src/"
+  },
+  "keywords": [
+    "youtube",
+    "duration",
+    "playback",
+    "calculator",
+    "extension",
+    "firefox",
+    "addon",
+    "firefox-extension"
+  ],
+  "author": "kurtnettle",
+  "bugs": {
+    "url": "https://github.com/kurtnettle/yt-pb-calc/issues"
+  },
+  "homepage": "https://github.com/kurtnettle/yt-pb-calc",
+  "license": "",
+  "devDependencies": {
+    "eslint-config-google": "^0.14.0",
+    "rollup": "^3.29.1"
+  }
+}
