@@ -1,4 +1,4 @@
 dist/
-env/
+venv/
 node_modules/
 temp/
