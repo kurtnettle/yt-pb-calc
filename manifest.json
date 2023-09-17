@@ -20,5 +20,10 @@
       ],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "update_url": "https://github.com/kurtnettle/yt-pb-calc/blob/main/.updates/update.json"
+    }
+  }
 }
