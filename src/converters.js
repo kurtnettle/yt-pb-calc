@@ -4,7 +4,7 @@
  * @return {number} calculated seconds from text.
  * @throws {RangeError} if fail to parse the duration text.
  */
-export function durationTextToSecond(text) {
+export function durationTextToSecond (text) {
   const parts = text.split(':');
   let day = 0;
   let hour = 0;
@@ -35,7 +35,7 @@ export function durationTextToSecond(text) {
  * @param {number} number
  * @return {string} pad added text.
  */
-function addPadding(number) {
+function addPadding (number) {
   const text = number.toString();
   return text.padStart(2, '0');
 }
@@ -46,7 +46,7 @@ function addPadding(number) {
  * @return {string} converted seconds in duration text.
  * @throws {RangeError} conversion fails when remaining seconds are not empty.
  */
-export function secondToDurationText(seconds) {
+export function secondToDurationText (seconds) {
   let day = 0;
   let hour = 0;
   let minute = 0;
@@ -68,7 +68,7 @@ export function secondToDurationText(seconds) {
   remaining -= second;
   if (remaining != 0) {
     throw new RangeError(
-        `[yt-pb-calc] - sec ('${seconds}') to text conversion failed. remaining (${remaining}) isn't empty.`,
+      `[yt-pb-calc] - sec ('${seconds}') to text conversion failed. remaining (${remaining}) isn't empty.`
     );
   }
 

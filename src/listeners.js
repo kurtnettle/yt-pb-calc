@@ -1,13 +1,13 @@
-import {setDurationText} from './utils.js';
-import {getDesktopPlayBackItem, getDesktopCustomPlayBackSpeed} from './helpers.js';
-import {D_SETTINGS_BTN, M_SPEED_SELECT} from './css_selectors.js';
+import { setDurationText } from './utils.js';
+import { getDesktopPlayBackItem, getDesktopCustomPlayBackSpeed } from './helpers.js';
+import { D_SETTINGS_BTN, M_SPEED_SELECT } from './css_selectors.js';
 
 /**
  * add listener to desktop playback menu item to
  * track the playback speed changes.
  *
  */
-export function desktopPlayback() {
+export function desktopPlayback () {
   const hasAddedDPlaybackListener = sessionStorage.getItem('hasAddedDPlaybackListener');
   if (hasAddedDPlaybackListener == 'true') {
     sessionStorage.setItem('hasAddedDPlaybackListener', 'true');
@@ -17,7 +17,7 @@ export function desktopPlayback() {
   const MenuItem = getDesktopPlayBackItem();
   if (!MenuItem) {
     throw new ReferenceError(
-        '[yt-pb-calc] [desktop] - can\'t find the playback menu item.',
+      "[yt-pb-calc] [desktop] - can't find the playback menu item."
     );
   } else {
     for (const item of MenuItem.children) {
@@ -25,7 +25,7 @@ export function desktopPlayback() {
         const config = {
           childList: true,
           subtree: true,
-          characterData: true,
+          characterData: true
         };
         const callback = (mutationList, observer) => {
           const customSpeed = getDesktopCustomPlayBackSpeed();
@@ -46,9 +46,9 @@ export function desktopPlayback() {
  * add listener to the youtube desktop settings icon
  * to track whether the settings panel was opened or not.
  */
-export function desktopSettingsBtn() {
+export function desktopSettingsBtn () {
   const hasAddedSettingsBtnListener = sessionStorage.getItem(
-      'hasAddedSettingsBtnListener',
+    'hasAddedSettingsBtnListener'
   );
   if (hasAddedSettingsBtnListener == 'true') {
     sessionStorage.setItem('hasAddedSettingsBtnListener', 'true');
@@ -58,7 +58,7 @@ export function desktopSettingsBtn() {
   if (settingsButton) {
     console.debug('[yt-pb-calc] [desktop] - located settings button');
     const config = {
-      attributeFilter: ['aria-expanded', 'aria-controls'],
+      attributeFilter: ['aria-expanded', 'aria-controls']
     };
     const callback = (mutationList, observer) => {
       if (mutationList[0].target.getAttribute('aria-expanded') == 'true') {
@@ -71,7 +71,7 @@ export function desktopSettingsBtn() {
     sessionStorage.setItem('hasAddedSettingsBtnListener', 'true');
   } else {
     throw new ReferenceError(
-        '[yt-pb-calc] [desktop] - failed to locate settings button',
+      '[yt-pb-calc] [desktop] - failed to locate settings button'
     );
   }
 }

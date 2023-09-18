@@ -1,0 +1,16 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 9,
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "rules": {
+        "semi": [
+            2,
+            "always"
+        ]
+    }
+}
