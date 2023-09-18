@@ -1,5 +1,5 @@
-import { secondToDurationText } from './converters.js';
-import { getVideoElement } from './helpers.js';
+import { secondToDurationText, durationTextToSecond } from './converters.js';
+import { getVideoElement, getSponsorBlockDurationElement } from './helpers.js';
 import { D_VIDEO_DURATION_ITEMS } from './css_selectors.js';
 
 /**
@@ -30,13 +30,14 @@ function calcPlaybackDuration (seconds, speed) {
  * @param {string|null} pbSpeed - playback speed
  */
 export function setDurationText () {
-  const mainDuration = document.querySelector(D_VIDEO_DURATION_ITEMS);
-  if (!mainDuration) {
+  const mainDurationElement = document.querySelector(D_VIDEO_DURATION_ITEMS);
+  if (!mainDurationElement) {
     console.error('[yt-pb-calc] [desktop] - failed to get video duration element.');
     return;
   }
 
   let duration = null; let pbSpeed = null;
+  let mainDurationText = null; let SPDuration = null;
   const video = getVideoElement();
 
   if (video) {
@@ -50,24 +51,42 @@ export function setDurationText () {
     return;
   }
 
-  const mainDurationText = mainDuration.textContent;
+  mainDurationText = mainDurationElement.textContent;
+
+  let sbDurElem = getSponsorBlockDurationElement();
+  if (sbDurElem) {
+    SPDuration = sbDurElem.textContent.trim().replace('(', '').replace(')', '');
+    if (SPDuration) SPDuration = durationTextToSecond(SPDuration);
+    else sbDurElem = null;
+  }
+
   let mainDurationTextCleaned = cleanDurationText(mainDurationText);
+
+  console.debug(`duration: ${duration} SPDuration: ${SPDuration} pbSpeed: ${pbSpeed}`);
 
   if (pbSpeed) {
     if (pbSpeed == 1) {
+      if (sbDurElem) sbDurElem.style.display = '';
       if (mainDurationTextCleaned) {
-        mainDuration.innerText = mainDurationTextCleaned;
+        mainDurationElement.innerText = mainDurationTextCleaned;
       } else {
         console.debug(`empty mainDurationTextCleaned: ${mainDurationTextCleaned}`);
       }
     } else {
-      const newDurationSec = calcPlaybackDuration(duration, pbSpeed);
+      let newDurationSec = 0;
+      if (sbDurElem) {
+        sbDurElem.style.display = 'none';
+        newDurationSec = calcPlaybackDuration(SPDuration, pbSpeed);
+      } else {
+        newDurationSec = calcPlaybackDuration(duration, pbSpeed);
+      }
+
       const newDurationText = secondToDurationText(newDurationSec);
       if (!mainDurationText.includes('(')) {
-        mainDuration.innerText += ` (${newDurationText})`;
+        mainDurationElement.innerText += ` (${newDurationText})`;
       } else {
         mainDurationTextCleaned += ` (${newDurationText})`;
-        mainDuration.innerText = mainDurationTextCleaned;
+        mainDurationElement.innerText = mainDurationTextCleaned;
       }
     }
   } else {
