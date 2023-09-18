@@ -6,6 +6,11 @@
                     "version": "1.0",
                     "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.0/yt-pb-calc_firefox_self_hosted.xpi",
                     "update_hash": "sha512:8e8f7a0663b4cc2fce793f07c736461777e7855e49c185319c317274a479bb4640fb9d3b838f796c350b36e7ac8e06a27e8d393c6bec25bbccca41819d616c43"
+                },
+                {
+                    "version": "1.1",
+                    "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.1/yt-pb-calc_firefox_self_hosted.xpi",
+                    "update_hash": "sha512:480f3ed213353b718beba522ade16460ed707ada2e524629e8dae108aee1d0cb75781ba45e3d65b2e247d4ab1d4abeea94b314af90a3f2304347871bab1448b0"
                 }
             ]
         }
