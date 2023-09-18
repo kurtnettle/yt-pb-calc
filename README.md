@@ -13,7 +13,7 @@ pip install nodeenv==1.8.0
 nodeenv --node 20.6.1 --npm 9.8.1 venv/node
 source venv/node/bin/activate
 
-npm i --save-dev rollup eslint-config-google
+npm i --save-dev
 ```
 
 # Build Extension
