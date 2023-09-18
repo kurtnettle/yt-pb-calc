@@ -1,7 +1,7 @@
-import {desktopSettingsBtn} from './listeners.js';
-import {setDurationText, sleep} from './utils.js';
+import { desktopSettingsBtn } from './listeners.js';
+import { setDurationText, sleep } from './utils.js';
 
-document.addEventListener('yt-navigate-finish', function(event) {
+document.addEventListener('yt-navigate-finish', function (event) {
   const currUrl = new URL(document.URL);
 
   if (currUrl.pathname != '/' && currUrl.pathname != '') {

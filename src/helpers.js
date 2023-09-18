@@ -1,10 +1,10 @@
-import {D_PANEL_MENU_ITEMS, D_SPEED_SLIDER} from './css_selectors.js';
+import { D_PANEL_MENU_ITEMS, D_SPEED_SLIDER } from './css_selectors.js';
 
 /**
  * get the playback back menu item from the settings panel.
  * @return {Element} playback menu item.
  */
-export function getDesktopPlayBackItem() {
+export function getDesktopPlayBackItem () {
   const MenuItems = document.querySelectorAll(D_PANEL_MENU_ITEMS);
   for (const MenuItem of MenuItems) {
     const item = MenuItem.children;
@@ -17,7 +17,7 @@ export function getDesktopPlayBackItem() {
  * get the desktop playback speed value.
  * @return {string} playback speed text.
  */
-export function getDesktopPlayBackSpeed() {
+export function getDesktopPlayBackSpeed () {
   const MenuItem = getDesktopPlayBackItem();
   return MenuItem.children[2].textContent.toLocaleLowerCase();
 }
@@ -26,7 +26,7 @@ export function getDesktopPlayBackSpeed() {
  * get the custom playback speed value.
  * @return {null|string} custom speed
  */
-export function getDesktopCustomPlayBackSpeed() {
+export function getDesktopCustomPlayBackSpeed () {
   let customSpeed = document.querySelector(D_SPEED_SLIDER);
   if (customSpeed) {
     customSpeed = customSpeed.getAttribute('aria-valuetext');

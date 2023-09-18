@@ -1,6 +1,6 @@
-import {durationTextToSecond, secondToDurationText} from './converters.js';
-import {getDesktopPlayBackSpeed} from './helpers.js';
-import {D_VIDEO_DURATION_ITEMS} from './css_selectors.js';
+import { durationTextToSecond, secondToDurationText } from './converters.js';
+import { getDesktopPlayBackSpeed } from './helpers.js';
+import { D_VIDEO_DURATION_ITEMS } from './css_selectors.js';
 
 /**
   * removes the newly appended duration text from the main duration text.
@@ -8,7 +8,7 @@ import {D_VIDEO_DURATION_ITEMS} from './css_selectors.js';
   * @param {string} text
   * @return {string}
   */
-function cleanDurationText(text) {
+function cleanDurationText (text) {
   const re = /\s\(.*\)/gm;
   text = text.replace(re, '');
   return text;
@@ -20,7 +20,7 @@ function cleanDurationText(text) {
   * @param {number} speed - video playback speed.
   * @return {number} - calculated duration with custom speed.
   */
-function calcPlaybackDuration(seconds, speed) {
+function calcPlaybackDuration (seconds, speed) {
   return Math.floor(seconds / speed);
 }
 
@@ -30,11 +30,11 @@ function calcPlaybackDuration(seconds, speed) {
  * @param {Element} MenuItem - video duration text element.
  * @param {string|null} pbSpeed - playback speed
  */
-export function setDurationText(MenuItem = null, pbSpeed = null) {
+export function setDurationText (MenuItem = null, pbSpeed = null) {
   const mainDuration = document.querySelector(D_VIDEO_DURATION_ITEMS);
   if (!mainDuration) {
     throw ReferenceError(
-        '[yt-pb-calc] [desktop] - failed to get video duration element.',
+      '[yt-pb-calc] [desktop] - failed to get video duration element.'
     );
   }
   const mainDurationText = mainDuration.textContent;
@@ -59,11 +59,11 @@ export function setDurationText(MenuItem = null, pbSpeed = null) {
     } else mainDuration.innerText = mainDurationTextCleaned;
   } else {
     throw new ReferenceError(
-        '[yt-pb-calc] [desktop] - failed to get playback speed text.',
+      '[yt-pb-calc] [desktop] - failed to get playback speed text.'
     );
   }
 }
 
-export function sleep(ms) {
+export function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
