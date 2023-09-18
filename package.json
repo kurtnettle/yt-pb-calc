@@ -7,9 +7,8 @@
     "build": "npx rollup -c && npm run build:ext",
     "prepare:builddir": "rm -rf temp && mkdir temp && cp -r manifest.json dist/bundle.js icons/addon.svg temp/",
     "build:ext": "npm run prepare:builddir && cd temp/ && npx web-ext build -o",
-    "dev": "npx rollup -c -w && npx web-ext run",
-    "lint": "npx eslint src/ && web-ext lint",
-    "lint:fix": "npx eslint --fix src/"
+    "lint": "npx standardx src/; npx web-ext lint",
+    "lint:fix": "npx standardx --fix src/"
   },
   "keywords": [
     "youtube",
