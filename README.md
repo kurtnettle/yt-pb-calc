@@ -2,6 +2,8 @@
 
 couldn't find any good name. :(
 
+![example-gif](https://raw.githubusercontent.com/kurtnettle/yt-pb-calc/main/assets/example.gif)
+
 # Setup Development Environment 
 ```
 python -m venv venv/py
