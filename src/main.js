@@ -1,16 +1,24 @@
-import { desktopSettingsBtn } from './listeners.js';
-import { setDurationText, sleep } from './utils.js';
+import { setDurationText } from './utils.js';
+import { getVideoElement } from './helpers.js';
+
+let hasAddedVideoListener = false;
+function addVideoListener (hasAddedVideoListener) {
+  if (hasAddedVideoListener) return;
+
+  const video = getVideoElement();
+  if (video == null) return false;
+
+  video.addEventListener('ratechange', (event) => {
+    setDurationText(video.playbackRate, video.duration);
+  });
+  video.addEventListener('playing', (event) => {
+    setDurationText(video.playbackRate, video.duration);
+  });
+
+  return true;
+};
 
 document.addEventListener('yt-navigate-finish', function (event) {
-  const currUrl = new URL(document.URL);
-
-  if (currUrl.pathname != '/' && currUrl.pathname != '') {
-    let lastPbSpeed = localStorage.getItem('last_pbSpeed');
-    if (!lastPbSpeed) lastPbSpeed = 'normal';
-
-    sleep(150).then(() => {
-      setDurationText(null, lastPbSpeed);
-    });
-    desktopSettingsBtn();
-  }
+  hasAddedVideoListener = addVideoListener(hasAddedVideoListener);
+  // }
 });

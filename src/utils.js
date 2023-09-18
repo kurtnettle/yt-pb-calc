@@ -1,5 +1,5 @@
-import { durationTextToSecond, secondToDurationText } from './converters.js';
-import { getDesktopPlayBackSpeed } from './helpers.js';
+import { secondToDurationText } from './converters.js';
+import { getVideoElement } from './helpers.js';
 import { D_VIDEO_DURATION_ITEMS } from './css_selectors.js';
 
 /**
@@ -27,28 +27,41 @@ function calcPlaybackDuration (seconds, speed) {
 /**
  *
  * modify the video duration text value.
- * @param {Element} MenuItem - video duration text element.
  * @param {string|null} pbSpeed - playback speed
  */
-export function setDurationText (MenuItem = null, pbSpeed = null) {
+export function setDurationText () {
   const mainDuration = document.querySelector(D_VIDEO_DURATION_ITEMS);
   if (!mainDuration) {
-    throw ReferenceError(
-      '[yt-pb-calc] [desktop] - failed to get video duration element.'
-    );
+    console.error('[yt-pb-calc] [desktop] - failed to get video duration element.');
+    return;
   }
-  const mainDurationText = mainDuration.textContent;
-  let mainDurationTextCleaned = cleanDurationText(mainDuration.textContent);
 
-  if (!pbSpeed) {
-    pbSpeed = getDesktopPlayBackSpeed(MenuItem);
+  let duration = null; let pbSpeed = null;
+  const video = getVideoElement();
+
+  if (video) {
+    duration = Math.floor(video.duration);
+    if (!duration) return;
+    pbSpeed = video.playbackRate;
+  } else if (video == null) {
+    return;
+  } else {
+    console.error('[yt-pb-calc] [desktop] - failed to get video element.');
+    return;
   }
+
+  const mainDurationText = mainDuration.textContent;
+  let mainDurationTextCleaned = cleanDurationText(mainDurationText);
 
   if (pbSpeed) {
-    localStorage.setItem('last_pbSpeed', pbSpeed);
-    if (!pbSpeed.includes('normal')) {
-      const mainDurationSec = durationTextToSecond(mainDurationTextCleaned);
-      const newDurationSec = calcPlaybackDuration(mainDurationSec, pbSpeed);
+    if (pbSpeed == 1) {
+      if (mainDurationTextCleaned) {
+        mainDuration.innerText = mainDurationTextCleaned;
+      } else {
+        console.debug(`empty mainDurationTextCleaned: ${mainDurationTextCleaned}`);
+      }
+    } else {
+      const newDurationSec = calcPlaybackDuration(duration, pbSpeed);
       const newDurationText = secondToDurationText(newDurationSec);
       if (!mainDurationText.includes('(')) {
         mainDuration.innerText += ` (${newDurationText})`;
@@ -56,14 +69,8 @@ export function setDurationText (MenuItem = null, pbSpeed = null) {
         mainDurationTextCleaned += ` (${newDurationText})`;
         mainDuration.innerText = mainDurationTextCleaned;
       }
-    } else mainDuration.innerText = mainDurationTextCleaned;
+    }
   } else {
-    throw new ReferenceError(
-      '[yt-pb-calc] [desktop] - failed to get playback speed text.'
-    );
+    throw new ReferenceError('[yt-pb-calc] [desktop] - failed to get playback speed text.');
   }
-}
-
-export function sleep (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
