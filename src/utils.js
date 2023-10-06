@@ -74,7 +74,7 @@ export function setDurationText () {
       }
     } else {
       let newDurationSec = 0;
-      if (sbDurElem) {
+      if (sbDurElem && SPDuration != null) {
         sbDurElem.style.display = 'none';
         newDurationSec = calcPlaybackDuration(SPDuration, pbSpeed);
       } else {
