@@ -1,18 +1,23 @@
 {
-    "addons": {
-        "{b4bbba24-0550-43f4-86d9-257967a56682}": {
-            "updates": [
-                {
-                    "version": "1.0",
-                    "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.0/yt-pb-calc_firefox_self_hosted.xpi",
-                    "update_hash": "sha512:8e8f7a0663b4cc2fce793f07c736461777e7855e49c185319c317274a479bb4640fb9d3b838f796c350b36e7ac8e06a27e8d393c6bec25bbccca41819d616c43"
-                },
-                {
-                    "version": "1.1",
-                    "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.1/yt-pb-calc_firefox_self_hosted.xpi",
-                    "update_hash": "sha512:480f3ed213353b718beba522ade16460ed707ada2e524629e8dae108aee1d0cb75781ba45e3d65b2e247d4ab1d4abeea94b314af90a3f2304347871bab1448b0"
-                }
-            ]
+  "addons": {
+    "{b4bbba24-0550-43f4-86d9-257967a56682}": {
+      "updates": [
+        {
+          "version": "1.0",
+          "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.0/yt-pb-calc_firefox_self_hosted.xpi",
+          "update_hash": "sha512:8e8f7a0663b4cc2fce793f07c736461777e7855e49c185319c317274a479bb4640fb9d3b838f796c350b36e7ac8e06a27e8d393c6bec25bbccca41819d616c43"
+        },
+        {
+          "version": "1.1",
+          "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.1/yt-pb-calc_firefox_self_hosted.xpi",
+          "update_hash": "sha512:480f3ed213353b718beba522ade16460ed707ada2e524629e8dae108aee1d0cb75781ba45e3d65b2e247d4ab1d4abeea94b314af90a3f2304347871bab1448b0"
+        },
+        {
+          "version": "1.2",
+          "update_link": "https://github.com/kurtnettle/yt-pb-calc/releases/download/1.2/yt-pb-calc_firefox_self_hosted.xpi",
+          "update_hash": "sha512:d33c8f136342dfd831656c23704f34b5df62772c66aa00c97527f734fcfa0b3842c87c4a025261b63bf4b3837af15c14e37b1051e8e44d1889668b49dbf5e30c"
         }
+      ]
     }
+  }
 }
