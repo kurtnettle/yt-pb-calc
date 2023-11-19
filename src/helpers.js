@@ -1,10 +1,9 @@
-import { SPONSORBLOCKDURATION_ELEM } from './css_selectors.js';
+import { SPONSORBLOCKDURATION_ELEM, VIDEO_CLASSLIST } from './css_selectors.js';
 
 export function getVideoElement () {
   const videos = document.getElementsByTagName('video');
   for (const video of videos) {
-    if (video.getAttribute('src')) return video;
-    if (video.getAttribute('data-no-fullscreen') == true) return null;
+    if (VIDEO_CLASSLIST.every(_class => video.classList.contains(_class))) return video;
   }
 }
 
