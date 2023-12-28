@@ -4,8 +4,14 @@ couldn't find any good name. :(
 
 ![example-gif](https://raw.githubusercontent.com/kurtnettle/yt-pb-calc/main/assets/example.gif)
 
+# Installation
+
++ Head over to [releases](https://github.com/kurtnettle/yt-pb-calc/releases)
++ Click `yt-pb-calc_firefox_self_hosted.xpi`
++ Firefox will now show you a prompt of addon installation.
+
 # Setup Development Environment 
-```
+```sh
 python -m venv venv/py
 source venv/py/bin/activate
 pip install nodeenv==1.8.0
