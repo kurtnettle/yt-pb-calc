@@ -1,6 +1,7 @@
 import { secondToDurationText, durationTextToSecond } from './converters.js';
 import { getVideoElement, getSponsorBlockDurationElement } from './helpers.js';
 import { D_VIDEO_DURATION_ITEMS } from './css_selectors.js';
+import { DEBUG_TAG } from './main.js';
 
 /**
   * removes the newly appended duration text from the main duration text.
@@ -32,7 +33,7 @@ function calcPlaybackDuration (seconds, speed) {
 export function setDurationText () {
   const mainDurationElement = document.querySelector(D_VIDEO_DURATION_ITEMS);
   if (!mainDurationElement) {
-    console.error('[yt-pb-calc] [desktop] - failed to get video duration element.');
+    console.error(`${DEBUG_TAG} - failed to get video duration element.`);
     return;
   }
 
@@ -47,7 +48,7 @@ export function setDurationText () {
   } else if (video == null) {
     return;
   } else {
-    console.error('[yt-pb-calc] [desktop] - failed to get video element.');
+    console.error(`${DEBUG_TAG} - failed to get video element.`);
     return;
   }
 
@@ -62,7 +63,7 @@ export function setDurationText () {
 
   let mainDurationTextCleaned = cleanDurationText(mainDurationText);
 
-  console.debug(`duration: ${duration} SPDuration: ${SPDuration} pbSpeed: ${pbSpeed}`);
+  console.debug(`${DEBUG_TAG} - duration: ${duration} SPDuration: ${SPDuration} pbSpeed: ${pbSpeed}`);
 
   if (pbSpeed) {
     if (pbSpeed == 1) {
@@ -70,7 +71,7 @@ export function setDurationText () {
       if (mainDurationTextCleaned) {
         mainDurationElement.innerText = mainDurationTextCleaned;
       } else {
-        console.debug(`empty mainDurationTextCleaned: ${mainDurationTextCleaned}`);
+        console.debug(`${DEBUG_TAG} - empty mainDurationTextCleaned: ${mainDurationTextCleaned}`);
       }
     } else {
       let newDurationSec = 0;
@@ -90,6 +91,6 @@ export function setDurationText () {
       }
     }
   } else {
-    throw new ReferenceError('[yt-pb-calc] [desktop] - failed to get playback speed text.');
+    throw new ReferenceError(`${DEBUG_TAG} - failed to get playback speed text.`);
   }
 }

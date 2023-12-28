@@ -1,21 +1,23 @@
 import { setDurationText } from './utils.js';
 import { getVideoElement } from './helpers.js';
 
+export const DEBUG_TAG = '[yt-pb-calc] [desktop]';
+
 let hasAddedVideoListener = false;
-function addVideoListener (hasAddedVideoListener) {
+function addVideoListener(hasAddedVideoListener) {
   if (hasAddedVideoListener) {
-    console.debug('[yt-pb-calc] [desktop] already added event listener.');
+    console.debug(`${DEBUG_TAG} - already added event listener.`);
     return true;
   } else {
-    console.debug('[yt-pb-calc] [desktop] adding event listener.');
+    console.debug(`${DEBUG_TAG} - adding event listener.`);
   }
 
   const video = getVideoElement();
   if (video == null) {
-    console.debug('[yt-pb-calc] [desktop] failed to get video element.');
+    console.debug(`${DEBUG_TAG} - failed to get video element.`);
     return false;
   } else {
-    console.debug('[yt-pb-calc] [desktop] got video element.');
+    console.debug(`${DEBUG_TAG} - got video element.`);
   }
 
   video.addEventListener('ratechange', (event) => {
@@ -29,12 +31,11 @@ function addVideoListener (hasAddedVideoListener) {
 };
 
 document.addEventListener('yt-navigate-finish', function (event) {
-  console.debug('[yt-pb-calc] [desktop] finish navigation');
+  console.debug(`${DEBUG_TAG} - finish navigation`);
   hasAddedVideoListener = addVideoListener(hasAddedVideoListener);
-  // }
 });
 
 document.addEventListener('yt-navigate-start', function (event) {
-  console.debug('[yt-pb-calc] [desktop] start navigation');
+  console.debug(`${DEBUG_TAG} - start navigation`);
   hasAddedVideoListener = false;
 });
