@@ -37,5 +37,4 @@ document.addEventListener('yt-navigate-finish', function (event) {
 
 document.addEventListener('yt-navigate-start', function (event) {
   console.debug(`${DEBUG_TAG} - start navigation`);
-  hasAddedVideoListener = false;
 });
