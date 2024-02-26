@@ -1,3 +1,5 @@
+import { DEBUG_TAG } from './main.js';
+
 /**
  * convert duration text to second.
  * @param {string} text - video duration text.
@@ -25,7 +27,7 @@ export function durationTextToSecond (text) {
   } else if (parts.length == 1) {
     second = parseInt(parts[0]);
   } else {
-    throw new RangeError(`[yt-pb-calc] - failed to parse a duration: '${text}'`);
+    throw new RangeError(`${DEBUG_TAG} - failed to parse a duration: '${text}'`);
   }
   return day * 86400 + hour * 3600 + minute * 60 + second;
 }
@@ -68,7 +70,7 @@ export function secondToDurationText (seconds) {
   remaining -= second;
   if (remaining != 0) {
     throw new RangeError(
-      `[yt-pb-calc] - sec ('${seconds}') to text conversion failed. remaining (${remaining}) isn't empty.`
+      `${DEBUG_TAG} - sec ('${seconds}') to text conversion failed. remaining (${remaining}) isn't empty.`
     );
   }
 
