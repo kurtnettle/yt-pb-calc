@@ -1,33 +1,62 @@
 {
   "name": "yt-pb-calc",
-  "version": "1.0",
-  "description": "get to know the video duration for different playback speed in Youtube.",
-  "main": "src/main.js",
+  "description": "See video duration for different playback speeds on YouTube.",
+  "version": "2.0",
+  "type": "module",
   "scripts": {
-    "build": "npx rollup -c && npm run build:ext",
-    "prepare:builddir": "rm -rf temp && mkdir temp && cp -r manifest.json dist/bundle.js icons/addon.svg temp/",
-    "build:ext": "npm run prepare:builddir && cd temp/ && npx web-ext build -o",
-    "lint": "npx standardx src/; npx web-ext lint",
-    "lint:fix": "npx standardx --fix src/"
+    "format": "prettier . --write",
+    "lint": "xo src/",
+    "lint:fix": "xo --fix src/",
+    "watch": "rollup -cw",
+    "test": "jest"
   },
   "keywords": [
+    "browser-extension",
     "youtube",
-    "duration",
-    "playback",
-    "calculator",
-    "extension",
+    "brave",
+    "chromium",
     "firefox",
-    "addon",
-    "firefox-extension"
+    "librewolf",
+    "playback-speed",
+    "video-duration",
+    "productivity",
+    "speed-watch",
+    "time-management"
   ],
-  "author": "kurtnettle",
-  "bugs": {
-    "url": "https://github.com/kurtnettle/yt-pb-calc/issues"
-  },
-  "homepage": "https://github.com/kurtnettle/yt-pb-calc",
-  "license": "",
   "devDependencies": {
-    "rollup": "^3.29.1",
-    "standardx": "^7.0.0"
-  }
+    "@jest/globals": "^29.7.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/chrome": "^0.0.310",
+    "@types/firefox-webext-browser": "^120.0.4",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.13",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "rollup": "^4.37.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "ts-jest": "^29.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "web-ext": "^8.5.0",
+    "xo": "^0.60.0"
+  },
+  "xo": {
+    "space": true,
+    "prettier": true,
+    "env": [
+      "browser",
+      "jest",
+      "node"
+    ],
+    "rules": {
+      "n/file-extension-in-import": "off"
+    }
+  },
+  "author": "Shaikh Shafeen <shafeen@duck.com> (https://github.com/kurtnettle)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kurtnettle/yt-pb-calc.git"
+  },
+  "license": "GPL-3.0-only",
+  "packageManager": "pnpm@10.6.5"
 }
