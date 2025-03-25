@@ -1,10 +1,13 @@
+import { uglify } from "rollup-plugin-uglify";
+import typescript from "@rollup/plugin-typescript";
+
 export default {
-  input: 'src/main.js',
+  input: "./src/content-script.ts",
   output: {
-    file: 'dist/bundle.js',
-    format: 'iife',
-    compact: false,
-    indent: true,
-    validate: true
-  }
-}
+    file: "./temp/content-script.js",
+    format: "iife",
+    compact: true,
+    validate: true,
+  },
+  plugins: [typescript(), uglify()],
+};

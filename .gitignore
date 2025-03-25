@@ -1,4 +1,6 @@
 dist/
-venv/
-node_modules/
+certs/
+coverage/
 temp/
+node_modules/
+web-ext-artifacts/
