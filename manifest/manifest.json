@@ -2,7 +2,7 @@
   "name": "YT Playback Calculator",
   "short_name": "yt-pb-calc",
   "description": "See video duration for different playback speeds on YouTube.",
-  "version": "2.0",
+  "version": "2.1",
   "homepage_url": "https://github.com/kurtnettle/yt-pb-calc",
   "content_scripts": [
     {
