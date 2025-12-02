@@ -9,7 +9,7 @@ export const mobileTimeContainerSelector = 'div.ytwPlayerTimeDisplayContent';
 export const mobileTotalDurationTextSelector = `${mobileTimeContainerSelector} > span[role="text"].ytwPlayerTimeDisplayTime.ytwPlayerTimeDisplayTimeSecond`;
 
 // Desktop
-export const desktopTimeContainerSelector = 'span.ytp-time-wrapper > div.ytp-time-contents';
+export const desktopTimeContainerSelector = 'div.ytp-time-wrapper > div.ytp-time-contents';
 export const desktopTotalDurationTextSelector = `${desktopTimeContainerSelector} > span.ytp-time-duration`;
 
 // SponsorBlock
