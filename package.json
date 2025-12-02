@@ -1,7 +1,7 @@
 {
   "name": "yt-pb-calc",
   "description": "See video duration for different playback speeds on YouTube.",
-  "version": "2.1",
+  "version": "2.2",
   "type": "module",
   "scripts": {
     "format": "prettier . --write",
