@@ -1,53 +1,75 @@
 import {
   addExtSpanElem,
-  getVideoElem,
   addSbTextElemObserver,
-  updateDurationText,
   getExtTextElem,
+  onMobileNavigation,
+  addVideoEventListeners,
+  initVideoController,
+  abortVideoController,
 } from './utils/video-dom-utils.ts';
-import {logD, logE} from './utils/debug-utils.ts';
-
-let controller = new AbortController();
-
-function addVideoEventListeners() {
-  const video = getVideoElem();
-  if (!video) {
-    logE('Failed adding events to video: video element not found');
-    return;
-  }
-
-  // First time
-  updateDurationText();
-
-  video.addEventListener(
-    'ratechange',
-    () => {
-      updateDurationText();
-    },
-    {signal: controller.signal},
-  );
-}
+import {logD} from './utils/debug-utils.ts';
+import {isOnMobile} from './index';
 
 function cleanUp() {
-  controller.abort();
-
+  abortVideoController();
   const element = getExtTextElem();
   if (element) element.textContent = '';
 }
 
 function setUp() {
-  controller = new AbortController();
-
+  initVideoController();
   addVideoEventListeners();
   addExtSpanElem();
   addSbTextElemObserver();
 }
 
-document.addEventListener('yt-navigate-finish', () => {
-  logD('finished navigation');
-  setUp();
-});
+function handleMobileSite() {
+  let lastUrl = location.href;
+  let navigationLock = false;
 
-document.addEventListener('yt-navigate-start', () => {
-  cleanUp();
-});
+  if (
+    document.readyState === 'complete' ||
+    document.readyState === 'interactive'
+  ) {
+    setTimeout(() => {
+      onMobileNavigation();
+    }, 300);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        onMobileNavigation();
+      }, 300);
+    });
+  }
+
+  // SPA
+  const observer = new MutationObserver(() => {
+    const url = location.href;
+    if (url !== lastUrl && !navigationLock) {
+      lastUrl = url;
+      navigationLock = true;
+      setTimeout(() => {
+        onMobileNavigation();
+        navigationLock = false;
+      }, 300);
+    }
+  });
+  observer.observe(document, {subtree: true, childList: true});
+}
+
+function handleDesktopSite() {
+  document.addEventListener('yt-navigate-finish', () => {
+    logD('finished navigation');
+    setUp();
+  });
+
+  document.addEventListener('yt-navigate-start', () => {
+    cleanUp();
+  });
+}
+
+if (isOnMobile) {
+  handleMobileSite();
+} else {
+  handleDesktopSite();
+}

@@ -16,16 +16,18 @@ import {debugTag, isOnMobile} from '../index.ts';
 import {logD, logE} from './debug-utils.ts';
 import {cleanDurationText, getCalculatedDurationText} from './text-utils.ts';
 
+let videoController = new AbortController();
+
 export function getSponsorBlockTextElem() {
   return document.querySelector(sponsorSkipDurationTextSelector);
 }
 
 export function getDurationTextElem() {
   let durationElement: Element | null = null;
-
-  durationElement = isOnMobile
-    ? document.querySelector(mobileTotalDurationTextSelector)
-    : document.querySelector(desktopTotalDurationTextSelector);
+  const selector = isOnMobile
+    ? mobileTotalDurationTextSelector
+    : desktopTotalDurationTextSelector;
+  durationElement = document.querySelector(selector);
 
   return durationElement;
 }
@@ -33,6 +35,9 @@ export function getDurationTextElem() {
 export function getVideoElem(): HTMLVideoElement | null {
   const element: HTMLVideoElement | null =
     document.querySelector(videoSelector);
+
+  if (!element) return null;
+  if (isOnMobile) return element;
   if (element?.src !== '') return element;
 
   return null;
@@ -47,9 +52,10 @@ export function addExtSpanElem() {
 
   if (parent) return;
 
-  parent = isOnMobile
-    ? document.querySelector(mobileTimeContainerSelector)
-    : document.querySelector(desktopTimeContainerSelector);
+  const selector = isOnMobile
+    ? mobileTimeContainerSelector
+    : desktopTimeContainerSelector;
+  parent = document.querySelector(selector);
 
   if (!parent) {
     console.warn(`${debugTag} duration container element not found.`);
@@ -126,4 +132,94 @@ export function updateDurationText() {
   } catch (error) {
     logE('Failed to update duration text:', error);
   }
+}
+
+export function initVideoController() {
+  videoController?.abort();
+  videoController = new AbortController();
+}
+
+export function abortVideoController() {
+  if (videoController) {
+    videoController.abort();
+  }
+}
+
+export function addVideoEventListeners() {
+  const video = getVideoElem();
+  if (!video) {
+    logE('Failed adding events to video: video element not found');
+    return;
+  }
+
+  // First time
+  updateDurationText();
+
+  video.addEventListener(
+    'ratechange',
+    () => {
+      updateDurationText();
+    },
+    {signal: videoController.signal},
+  );
+}
+
+export async function waitForElement(
+  selector: string,
+  timeout = 10_000,
+): Promise<Element> {
+  return new Promise((resolve, reject) => {
+    const element = document.querySelector(selector);
+    if (element) {
+      resolve(element);
+      return;
+    }
+
+    const observer = new MutationObserver((mutations, obs) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        obs.disconnect();
+        clearTimeout(timer);
+        resolve(element);
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+
+    const timer = setTimeout(() => {
+      observer.disconnect();
+      reject(new Error(`Timeout waiting for element: ${selector}`));
+    }, timeout);
+  });
+}
+
+export function onMobileNavigation() {
+  const containerSelector = isOnMobile
+    ? mobileTimeContainerSelector
+    : desktopTimeContainerSelector;
+  const durationSelector = isOnMobile
+    ? mobileTotalDurationTextSelector
+    : desktopTotalDurationTextSelector;
+  waitForElement(containerSelector)
+    .then(async () => {
+      addExtSpanElem();
+      return waitForElement(durationSelector);
+    })
+    .then(() => {
+      addVideoEventListeners();
+    })
+    .catch((error) => {
+      logE(`Duration container/text not found: ${error}`);
+    });
+
+  waitForElement(sponsorSkipDurationTextSelector)
+    .then(() => {
+      addSbTextElemObserver();
+    })
+    .catch((error) => {
+      logE(`SponsorBlock element not found: ${error.message}`);
+    });
 }

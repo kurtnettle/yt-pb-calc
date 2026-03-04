@@ -1,12 +1,11 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 
 // Youtube Video
-export const videoSelector =
-  'div.html5-video-container > video.html5-main-video';
+export const videoSelector = 'div.html5-video-container video.html5-main-video';
 
 // Mobile
-export const mobileTimeContainerSelector = 'div.ytwPlayerTimeDisplayContent';
-export const mobileTotalDurationTextSelector = `${mobileTimeContainerSelector} > span[role="text"].ytwPlayerTimeDisplayTime.ytwPlayerTimeDisplayTimeSecond`;
+export const mobileTimeContainerSelector = 'div.ytwPlayerTimeDisplayPill';
+export const mobileTotalDurationTextSelector = `${mobileTimeContainerSelector} span[role="text"].ytwPlayerTimeDisplayTimeSecond`;
 
 // Desktop
 export const desktopTimeContainerSelector = 'div.ytp-time-wrapper > div.ytp-time-contents';
