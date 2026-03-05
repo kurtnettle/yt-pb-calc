@@ -4,11 +4,13 @@
 export const videoSelector = 'div.html5-video-container video.html5-main-video';
 
 // Mobile
-export const mobileTimeContainerSelector = 'div.ytwPlayerTimeDisplayPill';
+export const mobileTimeContainerSelector = 'div.ytwPlayerTimeDisplayPill div';
+export const mobileCurrentDurationTextSelector = `${mobileTimeContainerSelector} span[role="text"]:nth-child(1)`;
 export const mobileTotalDurationTextSelector = `${mobileTimeContainerSelector} span[role="text"].ytwPlayerTimeDisplayTimeSecond`;
 
 // Desktop
 export const desktopTimeContainerSelector = 'div.ytp-time-wrapper > div.ytp-time-contents';
+export const desktopCurrentDurationTextSelector = `${desktopTimeContainerSelector} > span.ytp-time-current`;
 export const desktopTotalDurationTextSelector = `${desktopTimeContainerSelector} > span.ytp-time-duration`;
 
 // SponsorBlock
@@ -16,6 +18,8 @@ export const sponsorSkipDurationTextSelector =
   'span#sponsorBlockDurationAfterSkips';
 
 // Yt-pb-calc extension
+export const extCurrDurationElemId = 'ytPbCalcCurrDurAfterPbRateChange';
+export const extCurrDurationTextSelector = `span#${extCurrDurationElemId}`;
 export const extDurationElemId = 'ytPbCalcdurationAfterPbRateChange';
 export const extDurationTextSelector = `span#${extDurationElemId}`;
 export const extDurationTextAttrName = 'data-ytpbcalc-added-observer';

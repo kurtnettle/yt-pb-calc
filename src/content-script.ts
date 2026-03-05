@@ -20,6 +20,7 @@ function setUp() {
   initVideoController();
   addVideoEventListeners();
   addExtSpanElem();
+  addExtSpanElem({isCurrent: true});
   addSbTextElemObserver();
 }
 

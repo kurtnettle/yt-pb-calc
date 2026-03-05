@@ -11,6 +11,10 @@ import {
   extDurationTextSelector,
   extDurationTextAttrName,
   extDurationElemId,
+  mobileCurrentDurationTextSelector,
+  desktopCurrentDurationTextSelector,
+  extCurrDurationTextSelector,
+  extCurrDurationElemId,
 } from '../constants.ts';
 import {debugTag, isOnMobile} from '../index.ts';
 import {logD, logE} from './debug-utils.ts';
@@ -22,11 +26,21 @@ export function getSponsorBlockTextElem() {
   return document.querySelector(sponsorSkipDurationTextSelector);
 }
 
-export function getDurationTextElem() {
+export function getDurationTextElem(options: {isCurrent?: boolean} = {}) {
+  const {isCurrent = false} = options;
   let durationElement: Element | null = null;
-  const selector = isOnMobile
-    ? mobileTotalDurationTextSelector
-    : desktopTotalDurationTextSelector;
+
+  let selector = null;
+  if (isCurrent) {
+    selector = isOnMobile
+      ? mobileCurrentDurationTextSelector
+      : desktopCurrentDurationTextSelector;
+  } else {
+    selector = isOnMobile
+      ? mobileTotalDurationTextSelector
+      : desktopTotalDurationTextSelector;
+  }
+
   durationElement = document.querySelector(selector);
 
   return durationElement;
@@ -43,30 +57,53 @@ export function getVideoElem(): HTMLVideoElement | null {
   return null;
 }
 
-export function getExtTextElem() {
-  return document.querySelector(extDurationTextSelector);
+export function getExtTextElem(options: {isCurrent?: boolean} = {}) {
+  const {isCurrent = false} = options;
+  const selector = isCurrent
+    ? extCurrDurationTextSelector
+    : extDurationTextSelector;
+  return document.querySelector(selector);
 }
 
-export function addExtSpanElem() {
-  let parent: Element | null = document.querySelector(extDurationTextSelector);
+export function addExtSpanElem(options: {isCurrent?: boolean} = {}) {
+  const {isCurrent = false} = options;
 
-  if (parent) return;
+  const existingId = isCurrent ? extCurrDurationElemId : extDurationElemId;
+  const existingElement = document.querySelector(`#${existingId}`);
 
-  const selector = isOnMobile
+  if (existingElement) return;
+
+  const containerSelector = isOnMobile
     ? mobileTimeContainerSelector
     : desktopTimeContainerSelector;
-  parent = document.querySelector(selector);
+  const container = document.querySelector(containerSelector);
 
-  if (!parent) {
+  if (!container) {
     console.warn(`${debugTag} duration container element not found.`);
     return;
   }
 
   const element = document.createElement('span');
-  element.id = extDurationElemId;
-  if (isOnMobile) element.style.paddingLeft = '4px';
+  element.id = isCurrent ? extCurrDurationElemId : extDurationElemId;
 
-  parent.append(element);
+  if (isOnMobile) {
+    element.style.paddingLeft = '4px';
+  }
+
+  if (isCurrent) {
+    logD('Added current Elem');
+    const timeCurrentSpanSelector = isOnMobile
+      ? mobileCurrentDurationTextSelector
+      : desktopCurrentDurationTextSelector;
+    const timeCurrentSpan = container.querySelector(timeCurrentSpanSelector);
+    if (timeCurrentSpan) {
+      timeCurrentSpan.after(element);
+    } else {
+      container.prepend(element);
+    }
+  } else {
+    container.append(element);
+  }
 }
 
 export function addSbTextElemObserver() {
@@ -93,45 +130,48 @@ export function addSbTextElemObserver() {
   element.setAttribute(extDurationTextAttrName, 'true');
 }
 
-export function updateDurationText() {
-  try {
-    const video = getVideoElem();
-    if (!video) {
-      throw new Error('Video element not found');
-    }
+export function updateDurationText(options: {isCurrent?: boolean} = {}) {
+  const {isCurrent = false} = options;
 
-    const ytDurationTextElem = getDurationTextElem();
-    if (!ytDurationTextElem) {
-      throw new Error('Video total duration element not found');
-    }
-
-    let durationTextElement = ytDurationTextElem;
-    const sbTextElement = getSponsorBlockTextElem();
-    if (sbTextElement !== null && sbTextElement.textContent?.trim() !== '') {
-      durationTextElement = sbTextElement;
-    }
-
-    const totalDurationText = cleanDurationText(
-      durationTextElement.textContent ?? '',
-    );
-
-    const extTextElem = getExtTextElem();
-    if (extTextElem) {
-      const newDurationText = getCalculatedDurationText(
-        totalDurationText,
-        video.playbackRate,
-      );
-
-      if (newDurationText === ytDurationTextElem.textContent) {
-        extTextElem.textContent = '';
-        return;
-      }
-
-      extTextElem.textContent = ` (${newDurationText})`;
-    }
-  } catch (error) {
-    logE('Failed to update duration text:', error);
+  const video = getVideoElem();
+  if (!video) {
+    logE('Video element not found');
+    return;
   }
+
+  const ytDurationElem = isCurrent
+    ? getDurationTextElem({isCurrent: true})
+    : getDurationTextElem();
+  if (!ytDurationElem) return;
+
+  let sourceElement = ytDurationElem;
+  if (!isCurrent) {
+    const sbElement = getSponsorBlockTextElem();
+    if (sbElement?.textContent?.trim()) {
+      sourceElement = sbElement;
+    }
+  }
+
+  let baseText = cleanDurationText(sourceElement.textContent ?? '');
+  let isNegative = false;
+
+  if (isCurrent && baseText.startsWith('-')) {
+    isNegative = true;
+    baseText = baseText.slice(1);
+  }
+
+  const extElem = getExtTextElem({isCurrent});
+  if (!extElem) return;
+
+  const calculatedText = getCalculatedDurationText(
+    baseText,
+    video.playbackRate,
+  );
+
+  const finalText = isNegative ? `-${calculatedText}` : calculatedText;
+  const shouldShow = finalText !== ytDurationElem.textContent;
+
+  extElem.textContent = shouldShow ? ` (${finalText})` : '';
 }
 
 export function initVideoController() {
@@ -159,6 +199,15 @@ export function addVideoEventListeners() {
     'ratechange',
     () => {
       updateDurationText();
+      updateDurationText({isCurrent: true});
+    },
+    {signal: videoController.signal},
+  );
+
+  video.addEventListener(
+    'timeupdate',
+    () => {
+      updateDurationText({isCurrent: true});
     },
     {signal: videoController.signal},
   );
@@ -206,6 +255,7 @@ export function onMobileNavigation() {
   waitForElement(containerSelector)
     .then(async () => {
       addExtSpanElem();
+      addExtSpanElem({isCurrent: true});
       return waitForElement(durationSelector);
     })
     .then(() => {
