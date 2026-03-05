@@ -19,7 +19,7 @@ This simple extension shows you the actual video duration at any playback speed.
 </p>
 
 > [!NOTE]  
-> Theoretically it should work on any chromium / firefox forks. (mobile versions are not currently supported)
+> Theoretically it should work on any chromium / firefox forks. ~(mobile versions are not currently supported)~ not anymore!
 
 ## 🌟 Features
 
