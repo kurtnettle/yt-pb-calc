@@ -9,4 +9,7 @@
   <app appid='nmblihckbhklhjhdkhepfjcpibfdbnaj'>
     <updatecheck codebase='https://github.com/kurtnettle/yt-pb-calc/releases/download/2.2/yt-pb-calc-v2.2.signed.crx' version='2.2' />
   </app>  
+  <app appid='nmblihckbhklhjhdkhepfjcpibfdbnaj'>
+    <updatecheck codebase='https://github.com/kurtnettle/yt-pb-calc/releases/download/3.0/yt-pb-calc-v3.signed.crx' version='3.0' />
+  </app>  
 </gupdate>
