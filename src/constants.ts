@@ -18,6 +18,7 @@ export const sponsorSkipDurationTextSelector =
   'span#sponsorBlockDurationAfterSkips';
 
 // Yt-pb-calc extension
+export const debugTag = 'yt-pb-calc';
 export const extCurrDurationElemId = 'ytPbCalcCurrDurAfterPbRateChange';
 export const extCurrDurationTextSelector = `span#${extCurrDurationElemId}`;
 export const extDurationElemId = 'ytPbCalcdurationAfterPbRateChange';

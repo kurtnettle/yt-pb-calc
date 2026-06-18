@@ -1,4 +1,5 @@
 import {
+  isOnMobile,
   addExtSpanElem,
   addSbTextElemObserver,
   getExtTextElem,
@@ -6,9 +7,21 @@ import {
   addVideoEventListeners,
   initVideoController,
   abortVideoController,
-} from './utils/video-dom-utils.ts';
-import {logD} from './utils/debug-utils.ts';
-import {isOnMobile} from './index';
+} from '@/utils/video-dom-utils.ts';
+import {logD} from '@/utils/debug-utils.ts';
+
+
+export default defineContentScript({
+  matches: ['https://*.youtube.com/*'],
+
+  main() {
+    if (isOnMobile()) {
+      handleMobileSite();
+    } else {
+      handleDesktopSite();
+    }
+  },
+});
 
 function cleanUp() {
   abortVideoController();
@@ -67,10 +80,4 @@ function handleDesktopSite() {
   document.addEventListener('yt-navigate-start', () => {
     cleanUp();
   });
-}
-
-if (isOnMobile) {
-  handleMobileSite();
-} else {
-  handleDesktopSite();
 }

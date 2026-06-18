@@ -1,4 +1,4 @@
-import {debugTag} from '../index.ts';
+import {debugTag} from "@/constants";
 
 export function logD(message: string) {
   console.debug(`[${debugTag}] ${message}`);

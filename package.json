@@ -4,11 +4,14 @@
   "version": "3.0",
   "type": "module",
   "scripts": {
-    "format": "prettier . --write",
-    "lint": "xo src/",
-    "lint:fix": "xo --fix src/",
-    "watch": "rollup -cw",
-    "test": "jest"
+    "dev": "wxt",
+    "dev:ff": "wxt -b firefox",
+    "build": "wxt build",
+    "build:ff": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:ff": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "postinstall": "wxt prepare"
   },
   "keywords": [
     "browser-extension",
@@ -25,32 +28,12 @@
   ],
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@rollup/plugin-typescript": "^12.3.0",
-    "@types/chrome": "^0.0.310",
-    "@types/firefox-webext-browser": "^120.0.5",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.19.15",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "rollup": "^4.60.1",
-    "rollup-plugin-uglify": "^6.0.4",
     "ts-jest": "^29.4.6",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "web-ext": "^8.10.0",
-    "xo": "^0.60.0"
-  },
-  "xo": {
-    "space": true,
-    "prettier": true,
-    "env": [
-      "browser",
-      "jest",
-      "node"
-    ],
-    "rules": {
-      "n/file-extension-in-import": "off"
-    }
+    "@wxt-dev/auto-icons": "^1.1.1",
+    "wxt": "^0.20.26"
   },
   "author": "Shaikh Shafeen <shafeen@duck.com> (https://github.com/kurtnettle)",
   "repository": {

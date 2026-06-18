@@ -2,6 +2,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 
 import {
+  debugTag,
   desktopTimeContainerSelector,
   desktopTotalDurationTextSelector,
   mobileTimeContainerSelector,
@@ -15,12 +16,15 @@ import {
   desktopCurrentDurationTextSelector,
   extCurrDurationTextSelector,
   extCurrDurationElemId,
-} from '../constants.ts';
-import {debugTag, isOnMobile} from '../index.ts';
-import {logD, logE} from './debug-utils.ts';
-import {cleanDurationText, getCalculatedDurationText} from './text-utils.ts';
+} from '@/constants.ts';
+import {logD, logE} from '@/utils/debug-utils.ts';
+import {cleanDurationText, getCalculatedDurationText} from '@/utils/text-utils.ts';
 
 let videoController = new AbortController();
+
+export function isOnMobile() {
+  return document.location.host === 'm.youtube.com';
+}
 
 export function getSponsorBlockTextElem() {
   return document.querySelector(sponsorSkipDurationTextSelector);
@@ -32,11 +36,11 @@ export function getDurationTextElem(options: {isCurrent?: boolean} = {}) {
 
   let selector = null;
   if (isCurrent) {
-    selector = isOnMobile
+    selector = isOnMobile()
       ? mobileCurrentDurationTextSelector
       : desktopCurrentDurationTextSelector;
   } else {
-    selector = isOnMobile
+    selector = isOnMobile()
       ? mobileTotalDurationTextSelector
       : desktopTotalDurationTextSelector;
   }
@@ -51,7 +55,7 @@ export function getVideoElem(): HTMLVideoElement | null {
     document.querySelector(videoSelector);
 
   if (!element) return null;
-  if (isOnMobile) return element;
+  if (isOnMobile()) return element;
   if (element?.src !== '') return element;
 
   return null;
@@ -73,7 +77,7 @@ export function addExtSpanElem(options: {isCurrent?: boolean} = {}) {
 
   if (existingElement) return;
 
-  const containerSelector = isOnMobile
+  const containerSelector = isOnMobile()
     ? mobileTimeContainerSelector
     : desktopTimeContainerSelector;
   const container = document.querySelector(containerSelector);
@@ -86,13 +90,13 @@ export function addExtSpanElem(options: {isCurrent?: boolean} = {}) {
   const element = document.createElement('span');
   element.id = isCurrent ? extCurrDurationElemId : extDurationElemId;
 
-  if (isOnMobile) {
+  if (isOnMobile()) {
     element.style.paddingLeft = '4px';
   }
 
   if (isCurrent) {
     logD('Added current Elem');
-    const timeCurrentSpanSelector = isOnMobile
+    const timeCurrentSpanSelector = isOnMobile()
       ? mobileCurrentDurationTextSelector
       : desktopCurrentDurationTextSelector;
     const timeCurrentSpan = container.querySelector(timeCurrentSpanSelector);
@@ -246,10 +250,10 @@ export async function waitForElement(
 }
 
 export function onMobileNavigation() {
-  const containerSelector = isOnMobile
+  const containerSelector = isOnMobile()
     ? mobileTimeContainerSelector
     : desktopTimeContainerSelector;
-  const durationSelector = isOnMobile
+  const durationSelector = isOnMobile()
     ? mobileTotalDurationTextSelector
     : desktopTotalDurationTextSelector;
   waitForElement(containerSelector)
