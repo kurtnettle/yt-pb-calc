@@ -27,12 +27,12 @@
     "time-management"
   ],
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "ts-jest": "^29.4.6",
-    "typescript": "^5.9.3",
+    "@jest/globals": "^30.4.1",
     "@wxt-dev/auto-icons": "^1.1.1",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3",
     "wxt": "^0.20.26"
   },
   "author": "Shaikh Shafeen <shafeen@duck.com> (https://github.com/kurtnettle)",
