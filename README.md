@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/icons/128.png" alt="Logo"></img>
+  <img src="./src/assets/icon.png" alt="Logo" width="130"></img>
   <h1 align="center">YT Playback Calc.</h1>
 </p>
 
